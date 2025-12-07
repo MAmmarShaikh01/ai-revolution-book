@@ -81,7 +81,7 @@ const config: Config = {
     footer: {
       style: 'dark',
       links: [],
-      copyright: '',
+      copyright: `Copyright © ${new Date().getFullYear()} Quantum AI Book. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
