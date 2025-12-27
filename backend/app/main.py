@@ -39,7 +39,7 @@ allowed_origins = [
     "http://127.0.0.1:3000",
     "http://127.0.0.1:5173",
     "https://MAmmarShaikh01.github.io",  # GitHub Pages
-    "https://ai-revolution-book.vercel.app/",  # Vercel production
+    "https://ai-revolution-book.vercel.app",  # Vercel production
 ]
 
 app.add_middleware(
