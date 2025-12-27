@@ -38,8 +38,8 @@ allowed_origins = [
     "http://localhost:5173",  # Vite dev server
     "http://127.0.0.1:3000",
     "http://127.0.0.1:5173",
-    "https://your-username.github.io",  # GitHub Pages
-    "https://physical-ai-humanoid-robotics-book.vercel.app",  # Vercel production
+    "https://MAmmarShaikh01.github.io",  # GitHub Pages
+    "https://ai-revolution-book.vercel.app/",  # Vercel production
 ]
 
 app.add_middleware(
