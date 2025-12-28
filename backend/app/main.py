@@ -32,23 +32,16 @@ app = FastAPI(
 )
 
 # CORS middleware
-# Allow specific origins for better security and reliability
-allowed_origins = [
-    "http://localhost:3000",  # Local development
-    "http://localhost:5173",  # Vite dev server
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:5173",
-    "https://MAmmarShaikh01.github.io",  # GitHub Pages
-    "https://ai-revolution-book.vercel.app",  # Vercel production
-]
-
+# For production deployment, temporarily allow all origins to fix CORS issues
+# In production, you should specify exact origins for security
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["*"],
-    expose_headers=["*"],
+    allow_origins=["*"],  # Allow all origins temporarily to fix the issue
+    allow_credentials=True,  # Allow credentials for auth endpoints
+    allow_methods=["*"],  # Allow all methods including OPTIONS for preflight
+    allow_headers=["*"],  # Allow all headers
+    allow_origin_regex=r'.*\.vercel\.app$',  # Allow all Vercel subdomains
+    expose_headers=["Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "Access-Control-Allow-Methods", "Access-Control-Allow-Headers"],
     max_age=3600,  # Cache preflight requests for 1 hour
 )
 
