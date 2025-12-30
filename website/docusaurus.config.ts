@@ -8,7 +8,7 @@ const config: Config = {
   tagline: 'Embodied Intelligence for Next-Generation Robots',
   favicon: 'img/favicon.ico',
 
-  url: 'https://your-domain.vercel.app', // for Vercel deployment
+  url: 'https://ai-revolution-book.vercel.app', // for Vercel deployment
   baseUrl: '/', // Root base URL for Vercel
 
   organizationName: 'your-github-username', // Your GitHub username
