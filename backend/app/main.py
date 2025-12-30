@@ -2,6 +2,7 @@
 FastAPI application for RAG chatbot backend
 """
 from fastapi import FastAPI, HTTPException, Depends, Header
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional, Dict, Any
@@ -32,15 +33,22 @@ app = FastAPI(
 )
 
 # CORS middleware
-# For production deployment, temporarily allow all origins to fix CORS issues
-# In production, you should specify exact origins for security
+# For production deployment, specify exact origins for security
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins temporarily to fix the issue
+    allow_origins=[
+        "https://ai-revolution-book.vercel.app",  # Your production frontend
+        "http://localhost:3000",  # Local development
+        "http://localhost:8080",  # Alternative local development
+        "http://localhost:5173",  # Vite development server
+        "http://127.0.0.1:3000",  # Alternative localhost
+        "http://127.0.0.1:8080",  # Alternative localhost
+        "http://127.0.0.1:5173",  # Alternative localhost
+    ],
     allow_credentials=True,  # Allow credentials for auth endpoints
-    allow_methods=["*"],  # Allow all methods including OPTIONS for preflight
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  # Explicitly allow methods
     allow_headers=["*"],  # Allow all headers
-    allow_origin_regex=r'.*\.vercel\.app$',  # Allow all Vercel subdomains
+    # Remove allow_origin_regex as it may conflict with allow_origins
     expose_headers=["Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "Access-Control-Allow-Methods", "Access-Control-Allow-Headers"],
     max_age=3600,  # Cache preflight requests for 1 hour
 )
@@ -168,7 +176,7 @@ async def signup(request: SignupRequest):
     try:
         # Hash the password
         password_hash = get_password_hash(request.password)
-        
+
         # Create user
         user = db.create_user(
             email=request.email,
@@ -177,14 +185,14 @@ async def signup(request: SignupRequest):
             background_type=request.background_type,
             learning_goals=request.learning_goals
         )
-        
+
         if not user:
             raise HTTPException(status_code=400, detail="Email already registered")
-        
+
         # Create access token
         access_token = create_access_token(data={"sub": str(user.id)})
-        
-        return AuthResponse(
+
+        response = AuthResponse(
             access_token=access_token,
             user={
                 "id": user.id,
@@ -194,6 +202,8 @@ async def signup(request: SignupRequest):
                 "learning_goals": user.learning_goals
             }
         )
+
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Signup error: {str(e)}")
 
@@ -204,14 +214,14 @@ async def login(request: LoginRequest):
     """
     try:
         user = authenticate_user(request.email, request.password)
-        
+
         if not user:
             raise HTTPException(status_code=401, detail="Invalid email or password")
-        
+
         # Create access token
         access_token = create_access_token(data={"sub": str(user.id)})
-        
-        return AuthResponse(
+
+        response = AuthResponse(
             access_token=access_token,
             user={
                 "id": user.id,
@@ -221,6 +231,8 @@ async def login(request: LoginRequest):
                 "learning_goals": user.learning_goals
             }
         )
+
+        return response
     except HTTPException:
         raise
     except Exception as e:
@@ -233,20 +245,22 @@ async def get_me(authorization: Optional[str] = Header(None)):
     """
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Not authenticated")
-    
+
     token = authorization.replace("Bearer ", "")
     user = get_current_user(token)
-    
+
     if not user:
         raise HTTPException(status_code=401, detail="Invalid or expired token")
-    
-    return UserResponse(
+
+    response = UserResponse(
         id=user.id,
         email=user.email,
         name=user.name,
         background_type=user.background_type,
         learning_goals=user.learning_goals
     )
+
+    return response
 
 @app.post("/ask", response_model=QuestionResponse)
 async def ask_question(request: QuestionRequest):
