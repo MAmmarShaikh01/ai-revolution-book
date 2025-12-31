@@ -11,8 +11,8 @@ const config: Config = {
   url: 'https://ai-revolution-book.vercel.app', // for Vercel deployment
   baseUrl: '/', // Root base URL for Vercel
 
-  organizationName: 'your-github-username', // Your GitHub username
-  projectName: 'physical-ai-humanoid-robotics-book', // Your repository name
+  organizationName: 'MAmmarShaikh01', // Your GitHub username
+  projectName: 'ai-revolution-book', // Your repository name
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -36,7 +36,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts', // Path to your sidebar file
-          editUrl: 'https://github.com/your-username/physical-ai-humanoid-robotics-book/tree/main/website/',
+          editUrl: 'https://github.com/MAmmarShaikh01/ai-revolution-book/tree/main/website/',
         },
         blog: false, // Disable blog (if you don't need it)
         theme: {
@@ -54,7 +54,7 @@ const config: Config = {
         path: 'docs-software',
         routeBasePath: 'docs-software', // Custom route
         sidebarPath: './sidebars.ts',
-        editUrl: 'https://github.com/your-username/physical-ai-humanoid-robotics-book/tree/main/website/',
+        editUrl: 'https://github.com/MAmmarShaikh01/ai-revolution-book/tree/main/website/',
       },
     ],
     [
@@ -64,7 +64,7 @@ const config: Config = {
         path: 'docs-hardware',
         routeBasePath: 'docs-hardware', // Custom route
         sidebarPath: './sidebars.ts',
-        editUrl: 'https://github.com/your-username/physical-ai-humanoid-robotics-book/tree/main/website/',
+        editUrl: 'https://github.com/MAmmarShaikh01/ai-revolution-book/tree/main/website/',
       },
     ],
     [
@@ -74,7 +74,7 @@ const config: Config = {
         path: 'docs-urdu',
         routeBasePath: 'docs-urdu', // Custom route
         sidebarPath: './sidebars-urdu.ts', // Ensure this file exists
-        editUrl: 'https://github.com/your-username/physical-ai-humanoid-robotics-book/tree/main/website/',
+        editUrl: 'https://github.com/MAmmarShaikh01/ai-revolution-book/tree/main/website/',
       },
     ],
     [
@@ -84,7 +84,7 @@ const config: Config = {
         path: 'docs-urdu-software',
         routeBasePath: 'docs-urdu-software', // Custom route
         sidebarPath: './sidebars-urdu.ts', // Ensure this file exists
-        editUrl: 'https://github.com/your-username/physical-ai-humanoid-robotics-book/tree/main/website/',
+        editUrl: 'https://github.com/MAmmarShaikh01/ai-revolution-book/tree/main/website/',
       },
     ],
     [
@@ -94,7 +94,7 @@ const config: Config = {
         path: 'docs-urdu-hardware',
         routeBasePath: 'docs-urdu-hardware', // Custom route
         sidebarPath: './sidebars-urdu.ts', // Ensure this file exists
-        editUrl: 'https://github.com/your-username/physical-ai-humanoid-robotics-book/tree/main/website/',
+        editUrl: 'https://github.com/MAmmarShaikh01/ai-revolution-book/tree/main/website/',
       },
     ],
   ],
@@ -115,7 +115,7 @@ const config: Config = {
           label: 'Textbook',
         },
         {
-          href: 'https://github.com/your-username/physical-ai-humanoid-robotics-book',
+          href: 'https://github.com/MAmmarShaikh01/ai-revolution-book',
           label: 'GitHub',
           position: 'right',
         },
@@ -142,7 +142,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/your-username/physical-ai-humanoid-robotics-book',
+              href: 'https://github.com/MAmmarShaikh01/ai-revolution-book',
             },
             {
               label: 'Panaversity',
