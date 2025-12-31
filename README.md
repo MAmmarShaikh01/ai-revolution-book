@@ -1,286 +1,222 @@
-# 🤖 Physical AI & Humanoid Robotics
+# Physical AI Textbook RAG Chatbot Backend
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Hackathon Score](https://img.shields.io/badge/Score-300%2F300-success)](https://github.com/your-username/physical-ai-humanoid-robotics-book)
+Backend API for the Physical AI & Humanoid Robotics textbook with RAG (Retrieval Augmented Generation) capabilities.
 
-> A comprehensive, interactive textbook on Physical AI and Humanoid Robotics with RAG chatbot, user authentication, content personalization, and Urdu translation.
+## Features
 
-**🔗 Live Demo**: [https://your-username.github.io/physical-ai-humanoid-robotics-book/](https://your-username.github.io/physical-ai-humanoid-robotics-book/)
+- ✅ **RAG-based Q&A**: Answer questions using retrieved context from the textbook
+- ✅ **Selected Text Support**: Answer questions based on user-selected text
+- ✅ **Multi-turn Conversations**: Support for chat-based interactions
+- ✅ **Vector Search**: Semantic search across textbook content
+- ✅ **Document Indexing**: Automatic indexing from sitemap.xml
 
----
+## Tech Stack
 
-## 🌟 Features
+- **FastAPI**: Modern web framework
+- **OpenAI API**: GPT-4 for answer generation
+- **Cohere**: Embedding generation (embed-english-v3.0)
+- **Qdrant Cloud**: Vector database (free tier)
+- **Trafilatura**: Web content extraction
+- **Neon Postgres**: Database (optional, for user data)
 
-### 📚 Core Features (100/100 Points)
-- ✅ Comprehensive textbook with 4 modules (Physical AI, Control Systems, Perception, Human-Robot Interaction)
-- ✅ RAG Chatbot powered by OpenAI + Qdrant
-- ✅ Selected text support for context-aware Q&A
-- ✅ Beautiful UI with Docusaurus
-- ✅ Deployed to GitHub Pages
+## Setup Instructions
 
-### 🎁 Bonus Features (200/200 Points)
-- ✅ **Authentication** (50/50) - JWT auth with Neon Postgres
-- ✅ **Content Personalization** (50/50) - Tailored docs for software/hardware backgrounds
-- ✅ **Urdu Translation** (50/50) - Complete Urdu documentation
-- ✅ **Reusable Intelligence** (50/50) - 3 production-ready Claude Code Subagents
+### 1. Install Dependencies
 
-**🏆 Total Score: 300/300 Points**
-
----
-
-## 📚 Course Modules
-
-### Module 1: Physical AI Foundations for Robotics
-- Introduction to Physical AI principles
-- Embodied intelligence concepts
-- Robot dynamics and kinematics
-- Simulation environments (Isaac Sim, Gazebo)
-
-### Module 2: Control Systems for Humanoid Robots
-- Balance and locomotion control
-- Motor control and actuation
-- Trajectory planning and execution
-- Adaptive control strategies
-
-### Module 3: Perception & Sensing for Humanoids
-- Computer vision for robotics
-- Sensor fusion techniques
-- SLAM and localization
-- Multi-modal perception
-
-### Module 4: Human-Robot Interaction & Autonomy
-- Natural language processing for robots
-- Social robotics principles
-- Cognitive architectures
-- **Capstone Project**: Autonomous humanoid behaviors
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js 18+
-- Python 3.11+
-- Git
-
-### Run Locally
-
-**Backend:**
 ```bash
 cd backend
 pip install -r requirements.txt
-# Configure backend/.env with API keys
-uvicorn app.main:app --reload
 ```
 
-**Frontend:**
+### 2. Configure Environment
+
+Copy `.env.example` to `.env` and fill in your API keys:
+
 ```bash
-cd website
-npm install
-npm start
+cp .env.example .env
 ```
 
-Visit: http://localhost:3000
+Required keys:
+- **OPENAI_API_KEY**: Get from https://platform.openai.com/api-keys
+- **COHERE_API_KEY**: Get from https://dashboard.cohere.com/api-keys
+- **QDRANT_URL**: Your Qdrant Cloud cluster URL
+- **QDRANT_API_KEY**: Your Qdrant API key
 
-### API Keys Required
+### 3. Index Your Textbook Content
 
-Create `backend/.env`:
-```env
-# Authentication
-DATABASE_URL=your_neon_postgres_url
-JWT_SECRET=your_secret_key
+After deploying your Docusaurus site, run:
 
-# RAG Chatbot
-OPENAI_API_KEY=your_openai_key
-COHERE_API_KEY=your_cohere_key
-QDRANT_URL=your_qdrant_url
-QDRANT_API_KEY=your_qdrant_key
-
-# Content Generation
-GROQ_API_KEY=your_groq_key
-```
-
----
-
-## 📖 Documentation
-
-### For Users
-- **Complete Guide**: [DOCUMENTATION.md](DOCUMENTATION.md) - Full documentation
-- **Subagents Guide**: [.claude/subagents/README.md](.claude/subagents/README.md) - Reusable AI workflows
-
-### For Developers
-- **Backend API**: [backend/README.md](backend/README.md) - API documentation
-- **Subagents Summary**: [SUBAGENTS_DOCUMENTATION.md](SUBAGENTS_DOCUMENTATION.md) - Feature overview
-
----
-
-## 🎯 Key Features Explained
-
-### 1️⃣ Authentication System
-Users sign up with their background (software/hardware) and get personalized content automatically.
-
-[AuthModal.tsx](website/src/components/AuthModal.tsx) | [database.py](backend/app/database.py)
-
-### 2️⃣ Content Personalization
-Pre-generated documentation versions tailored for different backgrounds:
-- Software developers: Get hardware/robotics explanations
-- Hardware engineers: Get programming/software explanations
-
-Generate: `python backend/generate_docs.py`
-
-### 3️⃣ Urdu Translation
-Complete Urdu translation with instant navigation. RTL support included.
-
-Generate: `python backend/generate_urdu_docs.py`
-
-### 4️⃣ Claude Code Subagents
-3 reusable AI workflows that save ~30 hours of work:
-1. **📖 Documentation Personalizer** - Adapt docs for audiences
-2. **🌐 Multilingual Translator** - Translate while preserving formatting
-3. **🔐 Auth System Generator** - Scaffold complete auth systems
-
-[View Subagents](.claude/subagents/)
-
----
-
-## 📁 Project Structure
-
-```
-physical-ai-humanoid-robotics-book/
-├── .claude/subagents/     # Reusable Claude Code Subagents
-├── backend/               # FastAPI + RAG + Auth
-│   ├── app/              # API endpoints
-│   ├── generate_docs.py  # Generate personalized docs
-│   └── generate_urdu_docs.py  # Generate Urdu translations
-├── website/              # Docusaurus frontend
-│   ├── docs/            # Default documentation
-│   ├── docs-software/   # Software version
-│   ├── docs-hardware/   # Hardware version
-│   ├── docs-urdu/       # Urdu translation
-│   └── src/             # React components
-└── DOCUMENTATION.md     # Complete guide
-```
-
----
-
-## 🚢 Deployment
-
-### Frontend (GitHub Pages)
 ```bash
-cd website
-npm run build
-git push origin main  # Auto-deploys
+python populate_db.py
 ```
 
-### Backend (Railway)
-Connected to GitHub - auto-deploys on push.
+This will:
+1. Fetch all URLs from your sitemap
+2. Extract and chunk the content
+3. Generate embeddings
+4. Store in Qdrant
 
-**URLs:**
-- Frontend: https://github.com/your-username/physical-ai-humanoid-robotics-book
-- Backend: https://physical-ai-humanoid-backend-production.up.railway.app
+### 4. Run the Server
 
----
+```bash
+# Development mode
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
-## 🧪 Testing
+# Production mode
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
+```
 
-### Test Authentication
-1. Click "Sign In" → Create account
-2. Choose background (Software/Hardware)
-3. Gets redirected to personalized docs
+## API Endpoints
 
-### Test Personalization
-1. Sign up as Software → See [/docs-software/intro](website/docs-software/intro.md)
-2. Sign up as Hardware → See [/docs-hardware/intro](website/docs-hardware/intro.md)
+### Health Check
+```http
+GET /health
+```
 
-### Test Translation
-1. Click "🌐 اردو" in navbar
-2. See Urdu content instantly
-3. Click "✓ اصل دکھائیں" to return
+### Ask a Question
+```http
+POST /ask
+Content-Type: application/json
 
-### Test RAG Chatbot
-1. Click chatbot button (bottom right)
-2. Ask: "What is Physical AI?"
-3. Get context-aware answer
+{
+  "question": "What is Physical AI?",
+  "selected_text": "optional user-selected text for context"
+}
+```
 
----
+### Chat (Multi-turn)
+```http
+POST /chat
+Content-Type: application/json
 
-## 🏆 Hackathon Achievement
+{
+  "messages": [
+    {"role": "user", "content": "What is ROS 2?"},
+    {"role": "assistant", "content": "ROS 2 is..."},
+    {"role": "user", "content": "How does it differ from ROS 1?"}
+  ]
+}
+```
 
-**AnthropicAI Hackathon - December 2025**
+### Search
+```http
+POST /search
+Content-Type: application/json
 
-| Category | Points | Status |
-|----------|--------|--------|
-| Base Requirements | 100/100 | ✅ |
-| Authentication | 50/50 | ✅ |
-| Content Personalization | 50/50 | ✅ |
-| Urdu Translation | 50/50 | ✅ |
-| Reusable Intelligence | 50/50 | ✅ |
-| **TOTAL** | **300/300** | **🏆** |
+{
+  "query": "humanoid robot",
+  "limit": 5
+}
+```
 
----
+### Index Documents
+```http
+POST /index
+Content-Type: application/json
 
-## 💡 Technical Highlights
+{
+  "sitemap_url": "https://yoursite.com/sitemap.xml"
+}
+```
 
-### Architecture
-- **Pre-generated content**: Instant page loads, zero runtime API costs
-- **Multi-instance docs**: 4 versions (default, software, hardware, urdu)
-- **JWT authentication**: Secure, stateless user sessions
-- **RAG chatbot**: Context-aware Q&A with source attribution
+## Free Tier Resources
 
-### Tech Stack
-- **Frontend**: Docusaurus, React, TypeScript
-- **Backend**: FastAPI, Python
-- **Database**: Neon Postgres (users), Qdrant (vectors)
-- **AI**: OpenAI GPT-4, Cohere embeddings, Groq LLM
-- **Deployment**: GitHub Pages, Railway
+### Qdrant Cloud (Vector DB)
+1. Go to https://cloud.qdrant.io/
+2. Create free account
+3. Create a cluster (1GB free)
+4. Get API key from cluster settings
 
----
+### Cohere (Embeddings)
+1. Go to https://dashboard.cohere.com/
+2. Sign up for free
+3. Get API key (1000 requests/month free)
 
-## 📊 Statistics
+### OpenAI (GPT)
+1. Go to https://platform.openai.com/
+2. Add payment method (pay-as-you-go)
+3. Get API key
 
-- **Documentation Files**: 9 markdown files × 4 versions = 36 files
-- **Subagents**: 3 production-ready, 500+ lines of docs
-- **Time Saved**: ~30 hours with automation
-- **API Endpoints**: 8 (auth, RAG, search, translate)
-- **Components**: 20+ custom React components
-- **Success Rate**: 100% (all features working)
+## Project Structure
 
----
+```
+backend/
+├── app/
+│   ├── __init__.py
+│   ├── main.py           # FastAPI app
+│   ├── config.py         # Configuration
+│   ├── agent.py          # RAG agent
+│   ├── vector_db.py      # Qdrant operations
+│   └── data_extractor.py # Content extraction
+├── populate_db.py        # Indexing script
+├── requirements.txt
+├── .env.example
+└── README.md
+```
 
-## 🤝 Contributing
+## Deployment
 
-This project was built for the AnthropicAI Hackathon. Contributions welcome!
+### Deploy on Render.com (Free)
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+1. Create `render.yaml`:
+```yaml
+services:
+  - type: web
+    name: physical-ai-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: COHERE_API_KEY
+        sync: false
+      - key: QDRANT_URL
+        sync: false
+      - key: QDRANT_API_KEY
+        sync: false
+```
 
----
+2. Connect your GitHub repo
+3. Add environment variables
+4. Deploy!
 
-## 📜 License
+## Testing
 
-MIT License - see [LICENSE](LICENSE) file for details.
+Test the API with curl:
 
----
+```bash
+# Health check
+curl http://localhost:8000/health
 
-## 🙏 Acknowledgments
+# Ask a question
+curl -X POST http://localhost:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is Physical AI?"}'
 
-- **AnthropicAI** for the hackathon opportunity
-- **Panaversity** for organizing
-- **Claude Code** for development assistance
-- **Open Source Community** for amazing tools
+# Search
+curl -X POST http://localhost:8000/search \
+  -H "Content-Type: application/json" \
+  -d '{"query": "ROS 2", "limit": 3}'
+```
 
----
+## Troubleshooting
 
-## 📞 Contact
+### Qdrant Connection Issues
+- Verify your Qdrant URL and API key
+- Check if your cluster is running
+- Ensure your IP is not blocked
 
-- **GitHub**: [@your-username](https://github.com/your-username)
-- **Project**: [physical-ai-humanoid-robotics-book](https://github.com/your-username/physical-ai-humanoid-robotics-book)
-- **Issues**: [Create Issue](https://github.com/your-username/physical-ai-humanoid-robotics-book/issues)
+### Embedding Errors
+- Verify Cohere API key
+- Check rate limits (1000/month on free tier)
+- Try smaller batch sizes
 
----
+### OpenAI Errors
+- Verify API key and billing
+- Check rate limits
+- Use gpt-4o-mini for lower costs
 
-**Built with ❤️ using Claude Code**
+## License
 
-*Submission Date: December 2025*
+MIT
