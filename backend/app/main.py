@@ -4,6 +4,7 @@ FastAPI application for RAG chatbot backend
 from fastapi import FastAPI, HTTPException, Depends, Header
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional, Dict, Any
 from groq import Groq
@@ -13,8 +14,8 @@ from app.data_extractor import DataExtractor
 from app.config import settings
 from app.database import db
 from app.auth import (
-    get_password_hash, 
-    authenticate_user, 
+    get_password_hash,
+    authenticate_user,
     create_access_token,
     get_current_user
 )
@@ -38,6 +39,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://ai-revolution-book.vercel.app",  # Your production frontend
+        "https://your-username.github.io",  # GitHub Pages deployment
         "http://localhost:3000",  # Local development
         "http://localhost:8080",  # Alternative local development
         "http://localhost:5173",  # Vite development server
@@ -46,11 +48,21 @@ app.add_middleware(
         "http://127.0.0.1:5173",  # Alternative localhost
     ],
     allow_credentials=True,  # Allow credentials for auth endpoints
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  # Explicitly allow methods
+    allow_methods=["*"],  # Allow all methods
     allow_headers=["*"],  # Allow all headers
     # Remove allow_origin_regex as it may conflict with allow_origins
     expose_headers=["Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "Access-Control-Allow-Methods", "Access-Control-Allow-Headers"],
     max_age=3600,  # Cache preflight requests for 1 hour
+)
+
+# Trusted Host middleware to handle proxy headers
+app.add_middleware(
+    TrustedHostMiddleware,
+    allowed_hosts=[
+        "backend-ai-production-c2ee.up.railway.app",  # Railway domain
+        "localhost", "127.0.0.1", "[::1]",  # Local addresses
+        # Add specific hosts as needed for production deployment
+    ]
 )
 
 # Lazy initialization - initialize on first use to prevent startup crashes
@@ -167,6 +179,20 @@ async def root():
 async def health_check():
     return {"status": "healthy"}
 
+@app.get("/version")
+async def version_check():
+    """Return current version to verify deployment"""
+    return {
+        "version": "1.0.0",
+        "deployment_time": "latest_fix_applied",
+        "cors_config": "permissive_with_explicit_options",
+        "features": [
+            "cors_middleware_with_trusted_host",
+            "explicit_options_handler_for_login",
+            "manual_cors_headers_removed_from_responses"
+        ]
+    }
+
 # Authentication endpoints
 @app.post("/auth/signup", response_model=AuthResponse)
 async def signup(request: SignupRequest):
@@ -206,6 +232,22 @@ async def signup(request: SignupRequest):
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Signup error: {str(e)}")
+
+@app.options("/auth/login")
+async def login_options():
+    """
+    Handle preflight OPTIONS request for login endpoint
+    """
+    from fastapi.responses import Response
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Credentials": "true"
+        }
+    )
 
 @app.post("/auth/login", response_model=AuthResponse)
 async def login(request: LoginRequest):
