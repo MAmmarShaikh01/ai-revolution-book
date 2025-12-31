@@ -83,9 +83,9 @@ export default function Home(): React.ReactElement {
                 description="Stuck on a concept? Our RAG-powered AI assistant is trained on the entire textbook to help you learn faster."
                 icon="💬"
               />
-              <Feature 
-                title="Capstone Project" 
-                description="Apply everything you've learned to build a comprehensive AI solution for a real-world agricultural problem."
+              <Feature
+                title="Capstone Project"
+                description="Apply everything you've learned to build a comprehensive AI solution for a real-world robotics problem."
                 icon="🏆"
               />
             </div>
@@ -94,8 +94,8 @@ export default function Home(): React.ReactElement {
         
         <section className={styles.ctaSection}>
           <div className="container">
-            <h2>Ready to Transform Agriculture?</h2>
-            <p>Join the revolution in Plant Biotechnology with Artificial Intelligence.</p>
+            <h2>Ready to Build Intelligent Robots?</h2>
+            <p>Join the revolution in Physical AI & Humanoid Robotics with Artificial Intelligence.</p>
             <Link
               className="button button--secondary button--lg"
               to="/docs/intro">
